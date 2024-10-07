@@ -5,7 +5,7 @@ import datetime
 import json
 import locale
 from twilio.rest import Client
-import pydotenv
+from dotenv import load_dotenv
 
 GREEN = "\033[32m"
 RESET = "\033[0m"
@@ -13,7 +13,7 @@ api = "https://prd.mhrs.gov.tr/api"
 sleep_time = 30
 
 # loadenv
-pydotenv.load_dotenv()
+load_dotenv()
 Bot_Token = os.getenv("Bot_Token")
 
 # Telegram Bot
