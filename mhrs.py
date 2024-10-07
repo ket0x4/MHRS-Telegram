@@ -41,22 +41,6 @@ def upper_tr(text):
     return text.replace("i", "İ").upper().strip()
 
 
-def send_sms(message_body):
-    with open("twilio_config.json") as f:
-        value = json.load(f)
-
-        if value["account_sid"] != "":
-            client = Client(value["account_sid"], value["auth_token"])
-
-            message = client.messages.create(
-                body=message_body,
-                from_=value["twilio_phone_number"],
-                to=value["target_phone_number"],
-            )
-
-            print(f"Mesaj SID: {message.sid}")
-
-
 def login_request(tc, parola):
     json_data = {
         "kullaniciAdi": tc,
@@ -251,9 +235,7 @@ def search_appointment(
             f"{GREEN}[ {slot['bosKapasite']} Randevu Bulundu ]{RESET} \t {slot['hekim']['ad']} {slot['hekim']['soyad']} \t En yakın tarih: {slot_date}"
         )
     print("")
-    print(
-        "https://mhrs.gov.tr veya mobil uygulama üzerinden randevu alabilirsiniz."
-    )
+    print("https://mhrs.gov.tr veya mobil uygulama üzerinden randevu alabilirsiniz.")
 
 
 def main():
