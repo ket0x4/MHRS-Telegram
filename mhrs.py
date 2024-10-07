@@ -11,6 +11,20 @@ RESET = "\033[0m"
 api = "https://prd.mhrs.gov.tr/api"
 sleep_time = 30
 
+# Telegram Bot
+Bot_Token = "7479256250:AAHB9A5JALi7VOcV_ycKczU01MSJOIQMGeM"
+Chat_ID = "2087606991"
+UseTG = False
+MsgURL = f"https://api.telegram.org/bot{Bot_Token}/sendMessage?chat_id={Chat_ID}&text="
+
+
+def send_telegram_message(msg):
+    if UseTG == True:
+        if Bot_Token == "" or Chat_ID == "":
+            print(f"Telegram bot bildirimi etkin ancak düzgün konfigüre edilmemiş. mhrs.py dosyasında 15 ve 16. satırı kontrol edin.")
+    requests.get(MsgURL + msg)
+
+
 headers = {
     "Accept": "application/json, text/plain, */*",
     "Accept-Language": "tr-TR",
@@ -56,7 +70,7 @@ def login_request(tc, parola):
 
     if response["success"]:
         print(
-            f"HOŞGELDİN {response['data']['kullaniciAdi']} {response['data']['kullaniciSoyadi']}"
+            f"Kullanıcı: {response['data']['kullaniciAdi']} {response['data']['kullaniciSoyadi']}"
         )
         return response["data"]["jwt"]
     else:
@@ -222,9 +236,15 @@ def search_appointment(
                 break
             else:
                 current_time = datetime.datetime.now().strftime("%H:%M:%S")
-                print(f"Uygun randevu bulunamadı -" + current_time)
+                print(current_time + f" - Uygun randevu bulunamadı")
+                if UseTG == True:
+                    send_telegram_message(f"{current_time} - Uygun randevu bulunamadı")
         except requests.RequestException as e:
             print(f"Bir hata oluştu: {e}. {sleep_time} saniye sonra tekrar denenecek.")
+            if UseTG == True:
+                send_telegram_message(
+                    f"Bir hata oluştu: {e}. {sleep_time} saniye sonra tekrar denenecek."
+                )
 
         time.sleep(sleep_time)
 
@@ -234,8 +254,16 @@ def search_appointment(
         print(
             f"{GREEN}[ {slot['bosKapasite']} Randevu Bulundu ]{RESET} \t {slot['hekim']['ad']} {slot['hekim']['soyad']} \t En yakın tarih: {slot_date}"
         )
+        if UseTG == True:
+            send_telegram_message(
+                f"{slot['bosKapasite']} Randevu Bulundu \t {slot['hekim']['ad']} {slot['hekim']['soyad']} \t En yakın tarih: {slot_date}"
+            )
     print("")
     print("https://mhrs.gov.tr veya mobil uygulama üzerinden randevu alabilirsiniz.")
+    if UseTG == True:
+        send_telegram_message(
+            "https://mhrs.gov.tr veya mobil uygulama üzerinden randevu alabilirsiniz."
+        )
 
 
 def main():
