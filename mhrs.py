@@ -5,16 +5,21 @@ import datetime
 import json
 import locale
 from twilio.rest import Client
+import pydotenv
 
 GREEN = "\033[32m"
 RESET = "\033[0m"
 api = "https://prd.mhrs.gov.tr/api"
 sleep_time = 30
 
+# loadenv
+pydotenv.load_dotenv()
+Bot_Token = os.getenv("Bot_Token")
+
 # Telegram Bot
-Bot_Token = "7479256250:AAHB9A5JALi7VOcV_ycKczU01MSJOIQMGeM"
-Chat_ID = "2087606991"
-UseTG = False
+Bot_Token = os.getenv("Bot_Token")
+Chat_ID = os.getenv("Chat_ID")
+UseTG = True if Bot_Token != "" and Chat_ID != "" else False
 MsgURL = f"https://api.telegram.org/bot{Bot_Token}/sendMessage?chat_id={Chat_ID}&text="
 
 
