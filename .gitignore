@@ -1,4 +1,5 @@
 .idea
 *.json
 .venv/
+.env
 account.json

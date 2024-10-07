@@ -11,7 +11,13 @@ Hem ihtiyaca binaen hem de deneysel amaçlı yazılmış bir python projesidir. 
 - Telegram chat id (isteğe bağlı)
 
 ## Kurulum
-Telegram üzerinden bildirim almak istiyorsanız [Bir bot oluşturup](https://core.telegram.org/bots) token alın. Daha sonra mhrs.py içindeki `Bot_Token` ve `Chat_ID` değişkenlerini doldurun.
+### Telegram bidirimleri (isteğe bağlı)
+`.env` adında boş bir dosya oluşturup şunları ekleyin:
+```shell
+BOT_TOKEN = "Telegram bot tokeni"
+CHAT_ID = "telegram chat id"
+```
+[Token almak için Tıkla](https://core.telegram.org/bots)
 
 ### Windows:
 ```powershell
