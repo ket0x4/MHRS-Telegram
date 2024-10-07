@@ -4,8 +4,8 @@ import time
 import datetime
 import json
 import locale
-from twilio.rest import Client
 from dotenv import load_dotenv
+from tabulate import tabulate
 
 GREEN = "\033[32m"
 RESET = "\033[0m"
@@ -127,20 +127,24 @@ def get_api_data(endpoint):
 
 def display_and_select(items, title, start):
     cls()
-    print(f"\n{'#' * 40}")
-    print(f"####### {title.upper()} #######")
-    print(f"{'#' * 40}\n")
+    print(f"\n{'-' * 20}")
+    print(f"{title.upper()} SEÇİNİZ")
+    print(f"{'-' * 20}\n")
 
-    existing_dicts = set()
+    existing_values = set()
     filtered_list = []
     for d in items:
-        if (d["value"]) not in existing_dicts:
-            existing_dicts.add((d["value"]))
+        if d["value"] not in existing_values:
+            existing_values.add(d["value"])
             filtered_list.append(d)
 
+    table_data = []
     for index, item in enumerate(filtered_list, start=start):
-        print(f"{index} - {upper_tr(item['text'])}")
+        table_data.append([index, upper_tr(item['text'])])
+
+    print(tabulate(table_data, headers=["Index", "Value"], tablefmt="grid"))
     print("")
+
 
     while True:
         selected_index = input(f"{title} numarası girin: ")
